@@ -37,11 +37,14 @@ function formatDateString(dateString) {
 
   hours = hours % 12 || 12;
 
-  const formattedTime = `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${amPm}`;
+  const time = `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${amPm}`;
 
   const formattedDate = {
-    date: `${dayOfWeek}, ${month} ${day} ${year}`,
-    time: formattedTime,
+    dayOfWeek,
+    month,
+    day,
+    year,
+    time,
   };
 
   return formattedDate;
@@ -55,7 +58,16 @@ async function fetchWeather(place) {
 
   let location = data.location.name;
   let country = data.location.country;
-  let date = formatDateString(data.location.localtime);
+  let formattedDate = formatDateString(data.location.localtime);
+  let date =
+    formattedDate.dayOfWeek +
+    ", " +
+    formattedDate.month +
+    " " +
+    formattedDate.day +
+    ", " +
+    formattedDate.year;
+  let time = formattedDate.time;
   let tempCelcius = data.current.temp_c;
   let tempFahrenheit = data.current.temp_f;
   let description = data.current.condition.text;
@@ -67,6 +79,7 @@ async function fetchWeather(place) {
     location,
     country,
     date,
+    time,
     tempCelcius,
     tempFahrenheit,
     description,
@@ -110,12 +123,23 @@ function displayWeather(weather) {
   let feelsLike = document.querySelector(".feelsLike");
 
   location.innerHTML = `${currentWeather.location}, ${currentWeather.country}`;
-  date.innerHTML = `${currentWeather.date.date} ${currentWeather.date.time}`;
+  date.innerHTML = `${currentWeather.date} ${currentWeather.time}`;
   description.innerHTML = currentWeather.description;
   temperature.innerHTML = `${currentWeather.tempCelcius}°C`;
   humidity.innerHTML = `${currentWeather.humidity}%`;
   wind.innerHTML = `${currentWeather.wind}km/h`;
   feelsLike.innerHTML = `${currentWeather.feelsLike}°C`;
+
+  let forecastDiv = document.querySelector(".forecast");
+  forecastDiv.innerHTML = "";
+
+  for (let day of forecast.dayForecasts) {
+    let dayDiv = document.createElement("div");
+    dayDiv.classList.add("day");
+    let dayOfWeek = formatDateString(day.date).dayOfWeek
+    dayDiv.innerHTML = `${dayOfWeek} <br /> ${day.temp}°C <br /> ${day.description}`;
+    forecastDiv.appendChild(dayDiv);
+  }
 }
 
 fetchWeather("Nairobi").then((weather) => {
