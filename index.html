@@ -7,29 +7,33 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <video class="video-background" autoplay loop muted playsinline>
+      <source src="assets/background.webm" type="video/webm" />
+    </video>
+    <div class="overlay"></div>
+
     <div class="container">
       <div class="header">
-        <input type="text" id="searchInput" placeholder="Search" />
+        <input type="text" id="searchInput" placeholder="Search City" />
       </div>
       <div class="weather">
-        <div class="currentWeather">
-          <div>
-            <div class="description"></div>
-            <div class="date"></div>
-            <div class="location"></div>
-          </div>
-          <div>
-            <div class="temperature"></div>
-            <div>
-              <div class="feelsLike"></div>
-              <div class="humidity"></div>
-              <div class="wind"></div>
-            </div>
+        <div>
+          <div class="description"></div>
+          <div class="location"></div>
+        </div>
+        <div class="weather-details">
+          <div class="temperature"></div>
+          <div class="info">
+            <div class="feelsLike"></div>
+            <div class="humidity"></div>
+            <div class="wind"></div>
           </div>
         </div>
-        <div class="forecast"></div>
       </div>
+
+      <footer>Gideon Kemboi &copy; 2025</footer>
     </div>
+
     <script src="script.js"></script>
   </body>
 </html>
